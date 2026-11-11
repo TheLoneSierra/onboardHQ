@@ -76,26 +76,6 @@ These tools allow Claude to perform supported project-management operations thro
 
 For the proposed ecosystem, Volopay would act as the platform/business partner, while OnboardHQ would function as the specialized client onboarding and project operations solution.
 
-**Volopay — Platform / Business Partner**
-
-- Define the broader customer experience and business requirements.
-- Identify relevant customer segments and potential distribution channels.
-- Establish partnership, commercial, and integration requirements.
-- Define applicable security, compliance, and data-sharing expectations.
-- If a production integration is pursued, provide access to approved APIs, documentation, authentication mechanisms, and integration environments.
-- Own any Volopay-controlled financial products, payment services, and related compliance responsibilities.
-
-**OnboardHQ — Product / Technology Partner**
-
-- Develop and maintain the client onboarding and project operations application.
-- Manage project records, client details, tasks, and progress.
-- Maintain the backend services, database, and MCP server.
-- Implement and maintain Claude connectivity through approved MCP tools.
-- Enforce application-level access controls and validate incoming operations.
-- Maintain product functionality, monitoring, support, and integration reliability.
-
-The exact commercial, data-processing, security, and operational responsibilities would need to be finalized through a formal partnership agreement.
-
 ## 6. Assumptions
 
 - The initial target customers are freelancers, agencies, and service-based businesses.
@@ -120,7 +100,7 @@ The current implementation is a functional prototype, not a production-ready ent
 - Project and task-based dashboard analytics.
 
 **Not yet implemented:**
-- Volopay API or financial-product integration.
+- API or financial-product integration.
 - Production-grade authentication and role-based access control.
 - Multi-tenant organization isolation.
 - Enterprise audit logging and advanced permission management.
