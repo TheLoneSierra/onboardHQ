@@ -1,1 +1,9 @@
-@import "tailwindcss";
+#root{min-height:100vh}
+.dashboard-shell{background:radial-gradient(ellipse at 75% -10%,rgba(91,65,178,.18),transparent 34%),#080914}
+.panel{border:1px solid rgba(255,255,255,.075);background:linear-gradient(145deg,rgba(24,22,44,.96),rgba(16,16,31,.96));box-shadow:0 18px 55px rgba(0,0,0,.12)}
+.eyebrow{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#a78bfa}
+.page-title{font-family:'Space Grotesk','DM Sans',sans-serif;letter-spacing:-.045em}
+.soft-grid{background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:32px 32px}
+.fade-up{animation:fadeUp .55s cubic-bezier(.2,.7,.2,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}

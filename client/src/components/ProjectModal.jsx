@@ -1,6 +1,11 @@
 
 import { useEffect, useState } from "react";
-import { X } from "lucide-react";
+import {
+    X,
+    FolderKanban,
+    Sparkles,
+    ListTodo,
+} from "lucide-react";
 
 const initialForm = {
     projectName: "",
@@ -28,7 +33,7 @@ export default function ProjectModal({
                         clientName: project.clientName,
                         clientEmail: project.clientEmail,
                         status: project.status,
-                        tasks: project.tasks.map((task) => task.title).join("\n"),
+                        tasks: (project.tasks || []).map((task) => task.title).join("\n"),
                     }
                     : initialForm
             );
@@ -49,7 +54,8 @@ export default function ProjectModal({
             .map((title) => title.trim())
             .filter(Boolean)
             .map((title) => {
-                const existing = project?.tasks.find((task) => task.title === title);
+                const existing = project?.tasks?.find((task) => task.title === title);
+
                 return {
                     title,
                     completed: existing?.completed || false,
@@ -71,42 +77,60 @@ export default function ProjectModal({
         }
     };
 
+    const inputClass =
+        "w-full bg-[#11141D] border border-[#303649] rounded-xl px-4 py-3 text-sm text-white placeholder:text-[#626B7F] outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/10 transition";
+
+    const labelClass =
+        "block text-sm font-medium text-[#C4C8D4] mb-2";
+
     return (
         <div
-            className="fixed inset-0 z-50 bg-slate-950/50 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4"
             onMouseDown={(e) => {
                 if (e.target === e.currentTarget) onClose();
             }}
         >
-            <div className="bg-white rounded-2xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto shadow-2xl">
-                <div className="flex justify-between items-start mb-6">
+            <div className="bg-[#171B26] border border-[#303649] rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl shadow-black/50">
+                {/* Modal header */}
+                <div className="flex justify-between items-start p-6 border-b border-[#252A38]">
                     <div>
-                        <p className="text-xs text-violet-600 font-bold tracking-widest">
-                            CLIENT ONBOARDING
-                        </p>
-                        <h2 className="text-2xl font-bold text-slate-800 mt-2">
+                        <div className="flex items-center gap-2 text-violet-400 text-[10px] font-bold tracking-[0.2em] uppercase mb-3">
+                            <Sparkles size={13} />
+                            Client onboarding
+                        </div>
+
+                        <h2 className="text-2xl font-bold text-white">
                             {project ? "Edit project" : "Create project"}
                         </h2>
-                        <p className="text-sm text-slate-500 mt-1">
+
+                        <p className="text-sm text-[#9298AA] mt-2">
                             Add your client details and onboarding tasks.
                         </p>
                     </div>
 
-                    <button onClick={onClose} className="text-slate-400 hover:text-slate-700">
-                        <X size={21} />
+                    <button
+                        onClick={onClose}
+                        aria-label="Close modal"
+                        className="p-2 rounded-xl text-[#9298AA] hover:bg-[#252A38] hover:text-white transition"
+                    >
+                        <X size={19} />
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Form */}
+                <form onSubmit={handleSubmit} className="p-6 space-y-5">
+                    <div className="flex items-center gap-2 text-xs font-bold text-[#71798D] tracking-[0.15em] uppercase">
+                        <FolderKanban size={15} className="text-violet-400" />
+                        Project information
+                    </div>
+
                     {[
                         ["projectName", "Project name", "Website redesign"],
                         ["clientName", "Client name", "Sarah Johnson"],
                         ["clientEmail", "Client email", "sarah@example.com"],
                     ].map(([name, label, placeholder]) => (
                         <label key={name} className="block">
-                            <span className="block text-sm font-semibold text-slate-700 mb-2">
-                                {label}
-                            </span>
+                            <span className={labelClass}>{label}</span>
                             <input
                                 required
                                 type={name === "clientEmail" ? "email" : "text"}
@@ -114,58 +138,67 @@ export default function ProjectModal({
                                 value={form[name]}
                                 onChange={handleChange}
                                 placeholder={placeholder}
-                                className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-violet-200 focus:border-violet-500"
+                                className={inputClass}
                             />
                         </label>
                     ))}
 
                     <label className="block">
-                        <span className="block text-sm font-semibold text-slate-700 mb-2">
-                            Project status
-                        </span>
+                        <span className={labelClass}>Project status</span>
                         <select
                             name="status"
                             value={form.status}
                             onChange={handleChange}
-                            className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-violet-500"
+                            className={`${inputClass} cursor-pointer`}
                         >
-                            <option value="pending">Pending</option>
-                            <option value="in-progress">In progress</option>
-                            <option value="completed">Completed</option>
+                            <option className="bg-[#171B26]" value="pending">Pending</option>
+                            <option className="bg-[#171B26]" value="in-progress">In progress</option>
+                            <option className="bg-[#171B26]" value="completed">Completed</option>
                         </select>
                     </label>
 
-                    <label className="block">
-                        <span className="block text-sm font-semibold text-slate-700 mb-2">
+                    <div className="border-t border-[#252A38] pt-5">
+                        <div className="flex items-center gap-2 text-xs font-bold text-[#71798D] tracking-[0.15em] uppercase mb-4">
+                            <ListTodo size={15} className="text-violet-400" />
                             Onboarding tasks
-                        </span>
-                        <textarea
-                            name="tasks"
-                            rows="4"
-                            value={form.tasks}
-                            onChange={handleChange}
-                            placeholder={"Send welcome email\nCollect brand assets\nSchedule kickoff meeting"}
-                            className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-violet-200 focus:border-violet-500"
-                        />
-                        <span className="text-xs text-slate-400">
-                            Enter one task per line.
-                        </span>
-                    </label>
+                        </div>
 
-                    <div className="flex justify-end gap-3 pt-3">
+                        <label className="block">
+                            <span className={labelClass}>Task list</span>
+                            <textarea
+                                name="tasks"
+                                rows="5"
+                                value={form.tasks}
+                                onChange={handleChange}
+                                placeholder={"Send welcome email\nCollect brand assets\nSchedule kickoff meeting"}
+                                className={`${inputClass} resize-y leading-6`}
+                            />
+                            <span className="text-[11px] text-[#71798D] mt-2 block">
+                                Enter one task per line.
+                            </span>
+                        </label>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex justify-end gap-3 pt-3 border-t border-[#252A38]">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-5 py-3 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600"
+                            className="px-5 py-3 rounded-xl border border-[#303649] text-sm font-semibold text-[#C4C8D4] hover:bg-[#252A38] transition"
                         >
                             Cancel
                         </button>
+
                         <button
                             disabled={saving}
                             type="submit"
-                            className="px-5 py-3 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold disabled:opacity-60"
+                            className="px-5 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold shadow-lg shadow-violet-950/30 disabled:opacity-60 transition"
                         >
-                            {saving ? "Saving..." : project ? "Save changes" : "Create project"}
+                            {saving
+                                ? "Saving..."
+                                : project
+                                    ? "Save changes"
+                                    : "Create project"}
                         </button>
                     </div>
                 </form>
