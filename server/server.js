@@ -9,7 +9,10 @@ import { createMcpHandler } from "@modelcontextprotocol/server";
 import createMcpServer from "./mcp/mcpServer.js";
 dotenv.config();
 
-const app = createMcpExpressApp();
+const app = createMcpExpressApp({
+  host: "0.0.0.0",
+  allowedHosts: ["onboardhq-api.onrender.com"],
+});
 
 app.use(cors());
 app.use("/api/projects", projectRoutes);
